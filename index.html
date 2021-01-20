@@ -1,1 +1,214 @@
-Live Twitter profiles & banners
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile Peacock</title>
+<style>
+
+#center {
+    width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#banner img {
+    width: 600px;
+}
+
+#profile img {
+    width: 132px;
+    border-radius: 50%;
+    border: solid white 5px;
+    /*margin-top: -85px;*/
+    margin-left: 12px;
+    margin-top: 120px;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+
+.progress-ring {
+    margin-left: 17px;
+    margin-top: 125px;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+}
+
+
+.progress-ring__circle {
+  /*transition: 0.35s stroke-dashoffset;*/
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+#name {
+    font-family: "Helvetica", sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    margin-left: 12px;
+}
+
+#handle {
+    font-family: "Helvetica", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgb(91, 112, 131);
+    margin-left: 12px;
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+<div id="container">
+    <div id="center">
+        <div id="banner"><img src="banner.jpeg"></div> 
+        <div id="profile"><img src="profile.jpg"></div>
+        <svg
+          class="progress-ring"
+          height="132"
+          width="132"
+        >
+          <circle
+            class="progress-ring__circle"
+            stroke="rgb(63, 255, 100)"
+            stroke-width="6"
+            fill="transparent"
+            r="63"
+            cx="66"
+            cy="66"
+          />
+        </svg>
+
+<!--         <div id="name"></div>
+        <div id="handle"></div> -->
+    </div>
+</div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-analytics.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-auth.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-database.js"></script>
+
+<script>
+  const circle = document.querySelector('.progress-ring__circle');
+  const radius = circle.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+
+  circle.style.strokeDasharray = `${circumference} ${circumference}`;
+  // circle.style.strokeDashoffset = circumference;
+
+  function setProgress(percent) {
+    const offset = circumference - percent / 100 * circumference;
+    circle.style.strokeDashoffset = offset;
+  }
+
+  const dayOfYear = date => Math.floor((date - new Date(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+
+  // setProgress(0);
+  setProgress(100*dayOfYear(new Date())/365); // leap years be damned for now
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyC9Q9RDTM2xEcASNwdtHp7I_A6GafDvGlU",
+    authDomain: "live-profile.firebaseapp.com",
+    projectId: "live-profile",
+    storageBucket: "live-profile.appspot.com",
+    messagingSenderId: "562136726519",
+    appId: "1:562136726519:web:e781a763541485aa704cf2",
+    measurementId: "G-TPBHY2QQBW",
+    databaseURL: "https://live-profile-default-rtdb.firebaseio.com",
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+  // Is using username secure/best way to do this?
+  // Is storing image URLs safe?
+  // Can people just send request themselves from console with malicious URL?
+  // Partially solved by payment gateway
+  // Need to ensure we don't re-update the image if someone signs in again after transformation has taken effect
+  function writeUserData(uid, username, token, secret, profilePicUrl, bannerPicUrl) {
+      firebase.database().ref('users/' + uid).set({
+        username : username,
+        token : token,
+        secret : secret,
+        profile_picture : profilePicUrl,
+        banner_picture : bannerPicUrl,
+        colour : "green", // leave this out for now - MVP
+      });
+    }
+
+  var provider = new firebase.auth.TwitterAuthProvider();
+
+  // delay until after explanation of auth
+  // add button
+  // check if already logged in?
+  firebase
+  .auth()
+  .signInWithPopup(provider)
+  .then((result) => {
+    /** @type {firebase.auth.OAuthCredential} */
+    var credential = result.credential;
+
+    // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+    // You can use these server side with your app's credentials to access the Twitter API.
+    var token = credential.accessToken;
+    var secret = credential.secret;
+
+    // The signed-in user info.
+    var user = result.user;
+    // ...
+    console.log(result);
+    let banner = document.getElementById("banner");
+    let profile = document.getElementById("profile");
+    let nameDiv = document.getElementById("name");
+    let handle = document.getElementById("handle");
+
+    let uid = result.user.uid;
+    let username = result.additionalUserInfo.username;
+    let name = result.additionalUserInfo.profile.name;
+    let profilePicUrl = result.additionalUserInfo.profile.profile_image_url_https.replace('_normal', '');
+    let bannerPicUrl = result.additionalUserInfo.profile.profile_banner_url;
+
+    banner.innerHTML = '<img src="' + bannerPicUrl + '">';
+    profile.innerHTML = '<img src="' + profilePicUrl + '">';
+    nameDiv.innerHTML = name;
+    handle.innerHTML = '@' + username;
+
+    writeUserData(uid, username, token, secret, profilePicUrl, bannerPicUrl);
+
+  }).catch((error) => {
+    console.log(error);
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+</script>   
+</body>
+
+
+
+</html>
