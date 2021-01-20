@@ -64,6 +64,11 @@
     display:block;
 }
 
+#color {
+    margin:0 auto;
+    display:block;
+}
+
 </style>
 
 </head>
@@ -91,7 +96,9 @@
             cy="66"
           />
         </svg>
-        <button id="login" onclick="loginWithTwitter()">Try it on!</button>
+
+        <button id="login" onclick="loginWithTwitter();style.display = 'none'">Try it on!</button>
+        <!-- <input type="color" id="color" value="#e66465"> -->
 <!--         <div id="name"></div>
         <div id="handle"></div> -->
     </div>
@@ -162,7 +169,7 @@
     }
 
   var provider = new firebase.auth.TwitterAuthProvider();
-
+  // could cache images/response (not tokens though)
   // delay until after explanation of auth
   // add button
   // check if already logged in?
@@ -187,6 +194,7 @@
     let profile = document.getElementById("profile");
     let nameDiv = document.getElementById("name");
     let handle = document.getElementById("handle");
+    // let loginButton = document.getElementById("login");
 
     let uid = result.user.uid;
     let username = result.additionalUserInfo.username;
