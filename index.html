@@ -192,7 +192,7 @@
     let username = result.additionalUserInfo.username;
     let name = result.additionalUserInfo.profile.name;
     let profilePicUrl = result.additionalUserInfo.profile.profile_image_url_https.replace('_normal', '');
-    let bannerPicUrl = result.additionalUserInfo.profile.profile_banner_url;
+    let bannerPicUrl = result.additionalUserInfo.profile.profile_banner_url + '/1500x500';
 
     banner.innerHTML = '<img src="' + bannerPicUrl + '">';
     profile.innerHTML = '<img src="' + profilePicUrl + '">';
