@@ -59,6 +59,11 @@
     margin-left: 12px;
 }
 
+#login {
+    margin:0 auto;
+    display:block;
+}
+
 </style>
 
 </head>
@@ -86,7 +91,7 @@
             cy="66"
           />
         </svg>
-
+        <button id="login" onclick="loginWithTwitter()">Try it on!</button>
 <!--         <div id="name"></div>
         <div id="handle"></div> -->
     </div>
@@ -161,6 +166,7 @@
   // delay until after explanation of auth
   // add button
   // check if already logged in?
+  function loginWithTwitter() {
   firebase
   .auth()
   .signInWithPopup(provider)
@@ -206,6 +212,7 @@
     var credential = error.credential;
     // ...
   });
+}
 </script>   
 </body>
 
