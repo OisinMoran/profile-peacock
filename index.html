@@ -76,7 +76,10 @@
 }
 
 #login:hover, #submit:hover{
-    background-color: rgb(239, 255, 230);
+    /*background-color: rgb(239, 255, 230);*/
+    /*background-color: rgba(63, 255, 100, 0.05);*/
+    background-color: #3FFF640C;
+    background: var(--button-background-color);
 }
 
 
@@ -137,6 +140,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-database.js"></script>
 
 <script>
+document.querySelector("#login").style.setProperty('--button-background-color', '#3FFF640C');
 var uid;
   var colorPicker;
   var defaultColor = "#3FFF64";
@@ -157,10 +161,14 @@ function updateFirst(event) {
 
   if (c) {
     c.style.stroke = event.target.value;
+    
     b.style.color = event.target.value;
     b.style.borderColor = event.target.value;
+    b.style.setProperty('--button-background-color', event.target.value +'0C');
+
     s.style.color = event.target.value;
     s.style.borderColor = event.target.value;
+    s.style.setProperty('--button-background-color', event.target.value +'0C');
   }
 }
 
