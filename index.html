@@ -50,6 +50,8 @@
     font-size: 19px;
     font-weight: 800;
     margin-left: 12px;
+    margin-top: 35px;
+    margin-bottom: 2px;
 }
 
 #handle {
@@ -123,8 +125,8 @@
         <button id="login" onclick="loginWithTwitter()">Try it on!</button>
         <button id="submit" onclick="submit()">Submit</button>
         <input type="color" id="colorPicker" value="#3FFF64">
-        <!-- <div id="name"></div> -->
-        <!-- <div id="handle"></div> -->
+        <div id="name">quinetweet</div>
+        <div id="handle">@quinetweet</div>
     </div>
 </div>
 
@@ -191,7 +193,7 @@ function updateFirst(event) {
   const dayOfYear = date => Math.floor((date - new Date(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
 
   // setProgress(0);
-  setProgress(100*dayOfYear(new Date())/365); // leap years be damned for now
+  setProgress(100*dayOfYear(new Date())/365); // leap years be damned for now  
 
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -271,8 +273,14 @@ function updateFirst(event) {
 
     banner.innerHTML = '<img src="' + bannerPicUrl + '">';
     profile.innerHTML = '<img src="' + profilePicUrl + '">';
-    // nameDiv.innerHTML = name;
-    // handle.innerHTML = '@' + username;
+    nameDiv.innerHTML = name;
+    handle.innerHTML = '@' + username;
+
+    let fraction = name.match('\\d+/\\d+');
+    if (fraction) {
+        fraction = eval(fraction[0]);
+        setProgress(100*fraction);
+    }
 
     document.querySelector("#login").style.display = "none";
     document.querySelector("#submit").style.display = "block";
