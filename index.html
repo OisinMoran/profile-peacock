@@ -45,6 +45,12 @@
   transform-origin: 50% 50%;
 }
 
+p {
+    margin-left: 12px;
+    margin-top: 40px;
+    font-family: "Helvetica", sans-serif;
+}
+
 #name {
     font-family: "Helvetica", sans-serif;
     font-size: 19px;
@@ -88,10 +94,38 @@
 #colorPicker {
     margin:0 auto;
     display:block;
+
+
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+
+}
+
+input[type=color]{
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    background: none;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 40px;
 }
 
 #submit {
     display: none;
+}
+
+.assurance {
+    color: #666;
+    font-size: 14px;
+    font-weight: 100;
 }
 
 </style>
@@ -127,6 +161,18 @@
         <input type="color" id="colorPicker" value="#3FFF64">
         <div id="name">quinetweet</div>
         <div id="handle">@quinetweet</div>
+
+        <p>
+            Make yourself publicly accountable by showing your progress toward an important goal—directly on your profile picture! Simply add a fraction (e.g. 21/100) anywhere in your Twitter name, and we'll take care of the rest. If you want a progress arc but don't have a fraction, no worries, the default is the percentage completion of the year—we're that far in already?
+        </p>
+        
+        <p class="assurance">
+            <em>
+            This app will never tweet on your behalf nor do anything other than change your profile picture(s).
+            More can be read about Twitter app permissions <a href url="https://developer.twitter.com/en/docs/apps/app-permissions">here</a>.
+            You can always revoke permissions for this—or any other app—from <a href url="https://twitter.com/settings/connected_apps">your Twitter account's connected apps page</a>.
+            </em>
+        </p>
     </div>
 </div>
 
