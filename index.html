@@ -165,6 +165,11 @@ input[type="color"]::-webkit-color-swatch {
         <p>
             Make yourself publicly accountable by showing your progress toward an important goal—directly on your profile picture! Simply add a fraction (e.g. 21/100) anywhere in your Twitter name, and we'll take care of the rest. If you want a progress arc but don't have a fraction, no worries, the default is the percentage completion of the year—we're that far in already?
         </p>
+
+        <p>
+            Updates currently happen at midnight GMT, but will soon be much more frequent, so right now it may take some time for your progress ring to appear at first.
+            DM me on <a href url="https://twitter.com/TheOisinMoran">Twitter</a> if you have any issues <em>or</em> any other ideas.
+        </p>
         
         <p class="assurance">
             <em>
@@ -281,6 +286,12 @@ function updateFirst(event) {
     firebase.database().ref('users/' + uid + '/color').set(
         color
     );
+    document.querySelector("#submit").innerHTML = "✓";
+    document.querySelector("#submit").style.width = "40px";
+    document.querySelector("#submit").style.height = "40px";
+    document.querySelector("#submit").style.borderRadius = "40px";
+    document.querySelector("#submit").style.padding = "10px 12px 14px 12px";
+    document.querySelector("#submit").blur();
  }
 
   var provider = new firebase.auth.TwitterAuthProvider();
