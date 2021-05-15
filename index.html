@@ -308,11 +308,6 @@ function updateFirst(event) {
   // Get a reference to the database service
   var database = firebase.database();
 
-  // Is using username secure/best way to do this?
-  // Is storing image URLs safe?
-  // Can people just send request themselves from console with malicious URL?
-  // Partially solved by payment gateway
-  // Need to ensure we don't re-update the image if someone signs in again after transformation has taken effect
   function writeUserData(uid, username, token, secret, profilePicUrl, bannerPicUrl) {
       firebase.database().ref('users/' + uid).set({
         username : username,
@@ -337,10 +332,7 @@ function updateFirst(event) {
  }
 
   var provider = new firebase.auth.TwitterAuthProvider();
-  // could cache images/response (not tokens though)
-  // delay until after explanation of auth
-  // add button
-  // check if already logged in?
+
   function loginWithTwitter() {
   firebase
   .auth()
